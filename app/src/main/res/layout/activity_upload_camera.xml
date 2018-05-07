@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageViewCameraUpload"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_weight="0"/>
+
+    <Button
+        android:id="@+id/buttonCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Camera"/>
+
+    <EditText
+        android:id="@+id/editTextNameUploadCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan Nama"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/editTextPriceUploadCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan Harga"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/editTextDescriptionUploadCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan Desksripsi"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/editTextLatUploadCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan Lng"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/editTextLngUploadCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan Lng"
+        android:inputType="text"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/buttonUploadCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"/>
+
+</LinearLayout>

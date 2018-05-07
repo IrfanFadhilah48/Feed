@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">MyCat</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="about">Developer by\n
+        Ando Pratama Wibawa \n
+        Nur Irfan Eka Fadhilah @irfanfadhiilah\n
+        Muhammad Farrel Wiraputra \n
+        Ella Sofia
+    </string>
+    <string name="whatsapp">whatsapp</string>
+    <string name="telepon">telepon</string>
+    <string name="sms">sms</string>
+    <string name="maps">maps</string>
+    <string name="masukloginadmin">Login sebagai admin?klik disini</string>
+    <string name="keluar">Keluar</string>
+    <string name="tambah">Tambah</string>
+
+    <string name="permission">Accessing Location Permissions required</string>
+    <string name="permission_setting">Go to App settings and enable permissions</string>
+    <string name="tes">Accessing Location Permissions required</string>
+    <string name="tes2">Go to App settings and enable permissions</string>
+</resources>
+
