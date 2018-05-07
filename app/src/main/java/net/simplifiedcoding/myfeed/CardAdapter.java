@@ -35,6 +35,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> im
     //MainActivity M = new MainActivity();
 
 
+    private String tes;
     //Imageloader to load image
     private ImageLoader imageLoader;
     private Context context;
