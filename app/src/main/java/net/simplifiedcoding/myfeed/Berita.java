@@ -8,6 +8,9 @@ public class Berita {
     private String judul;
     private String isi;
     private String tanggal;
+    private String tempat;
+    private String Contact;
+
 
     public String getJudul() {
         return judul;
@@ -31,5 +34,21 @@ public class Berita {
 
     public void setTanggal(String tanggal) {
         this.tanggal = tanggal;
+    }
+
+    public String getTempat() {
+        return tempat;
+    }
+
+    public void setTempat(String tempat) {
+        this.tempat = tempat;
+    }
+
+    public String getContact() {
+        return Contact;
+    }
+
+    public void setContact(String contact) {
+        Contact = contact;
     }
 }

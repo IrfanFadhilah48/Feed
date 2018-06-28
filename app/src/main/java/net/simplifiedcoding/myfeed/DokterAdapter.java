@@ -63,6 +63,8 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
         holder.textViewTelepon.setText(dokter.getTelpon());
 //        holder.textViewJam.setText("Buka " + dokter.getJambuka() + "-" +dokter.getJamtutup());
         holder.textViewJarak.setText(dokter.getJarak() + "Km");
+//        holder.textViewDeskripsi.setText(dokter.getDeskripsi());
+
 
         //membuat jambuka dan jamtutup
         now = Calendar.getInstance();
@@ -108,6 +110,7 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
 //        private TextView textViewJam;
         private TextView textViewJamKondisi;
         private TextView textViewJarak;
+        private TextView textViewDeskripsi;
 
 
         public ViewHolder(View itemView) {
@@ -119,6 +122,8 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
             textViewTelepon = (TextView) itemView.findViewById(R.id.textViewTeleponDokter);
 //            textViewJam = (TextView) itemView.findViewById(R.id.textViewJamDokter);
             textViewJarak = itemView.findViewById(R.id.jarak);
+//            textViewDeskripsi = itemView.findViewById(R.id.textViewDeskripsiDokterDetail);
+
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -133,16 +138,15 @@ public class DokterAdapter extends RecyclerView.Adapter<DokterAdapter.ViewHolder
                     ii.putExtra("rating",dokters.get(i).getRating());
                     ii.putExtra("jambuka",dokters.get(i).getJambuka());
                     ii.putExtra("jamtutup",dokters.get(i).getJamtutup());
+                    ii.putExtra("deskripsi", dokters.get(i).getDeskripsi());
+                    ii.putExtra("lat",dokters.get(i).getLatitude());
+                    ii.putExtra("lng",dokters.get(i).getLongitude());
                     context.startActivity(ii);
                 }
             });
         }
     }
 
-    private void compareTime(){
-
-
-    }
 
     private Date parseDate(String date){
         try{

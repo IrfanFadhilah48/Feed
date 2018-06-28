@@ -1,33 +1,25 @@
 package net.simplifiedcoding.myfeed;
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.PeriodicSync;
-import android.media.Image;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> implements Filterable {
@@ -64,7 +56,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> im
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.superheroes_list, parent, false);
+                .inflate(R.layout.fjb_list, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
@@ -75,6 +67,20 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> im
         //Getting the particular item from the list
         final SuperHero superHero =  superHeroes.get(position);
 
+//        merubah text menjadi currency rupiah
+//        Locale localeID = new Locale("in","ID");
+//        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+//        Double harga = Double.parseDouble(superHero.getPublisher());
+//        holder.textViewPublisher.setText(formatRupiah.format((double)harga));
+
+        DecimalFormat format = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+        DecimalFormatSymbols idr = new DecimalFormatSymbols();
+
+        idr.setCurrencySymbol("Rp ");
+        idr.setGroupingSeparator('.');
+        format.setDecimalFormatSymbols(idr);
+        holder.textViewPublisher.setText(format.format(Long.valueOf(superHero.getPublisher())));
+
         //Loading image from url
         /*imageLoader = CustomVolleyRequest.getInstance(context).getImageLoader();
         imageLoader.get(superHero.getImageUrl(), ImageLoader.getImageListener(holder.imageView, R.drawable.image, android.R.drawable.ic_dialog_alert));*/
@@ -82,7 +88,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> im
         //Showing data on the views
         /*holder.imageView.setImageUrl(superHero.getImageUrl(), imageLoader);*/
         holder.textViewName.setText(superHero.getName());
-        holder.textViewPublisher.setText(superHero.getPublisher());
+//        holder.textViewPublisher.setText(superHero.getPublisher());
+
         holder.textViewDeskripsi.setText(superHero.getDescription());
 
         //preg_replace("/[^a-zA-Z0-9]/", ""
@@ -145,10 +152,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> im
                 i.putExtra("price", getPrice);
                 String getDescription = superHero.getDescription();
                 i.putExtra("description", getDescription);
-                String getLat = superHero.getLat();
-                i.putExtra("lat", getLat);
-                String getLng = superHero.getLng();
-                i.putExtra("lng", getLng);
+//                String getLat = superHero.getLat();
+//                i.putExtra("lat", getLat);
+//                String getLng = superHero.getLng();
+//                i.putExtra("lng", getLng);
                 String getTelephone = superHero.getTelephone();
                 i.putExtra("telephone", getTelephone);
                 String getAddress = superHero.getAddress();
@@ -255,10 +262,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> im
                     ii.putExtra("image",superHeroes.get(i).getImageUrl());
                     ii.putExtra("price",superHeroes.get(i).getPublisher());
                     ii.putExtra("description",superHeroes.get(i).getDescription());
-                    ii.putExtra("lat",superHeroes.get(i).getLat());
-                    ii.putExtra("lng",superHeroes.get(i).getLng());
                     ii.putExtra("telephone",superHeroes.get(i).getTelephone());
                     ii.putExtra("address",superHeroes.get(i).getAddress());
+                    ii.putExtra("username",superHeroes.get(i).getUsername());
                     context.startActivity(ii);
                 }
             });

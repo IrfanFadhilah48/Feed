@@ -1,6 +1,7 @@
 package net.simplifiedcoding.myfeed;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -51,6 +52,12 @@ public class BeritaAdminActivity extends AppCompatActivity {
 
     ArrayList<Berita> beritaArrayList = new ArrayList<>();
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, HomeAdminActivity.class));
+    }
+
     private static final String TAG = BeritaAdminActivity.class.getSimpleName();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,16 +66,23 @@ public class BeritaAdminActivity extends AppCompatActivity {
 
         refreshLayout = findViewById(R.id.swiperefreshBeritaAdmin);
         recyclerView = findViewById(R.id.recyclerViewBeritaAdmin);
+
         Toolbar toolbar = findViewById(R.id.toolbarBeritaAdmin);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Event");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        adapterBerita = new BeritaAdapter(beritaArrayList,context);
+        adapterBerita = new BeritaAdapter(beritaArrayList,this);
         recyclerView.setAdapter(adapterBerita);
 
         calendar = Calendar.getInstance();
@@ -161,6 +175,8 @@ public class BeritaAdminActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.tambah_Berita:
                 Toast.makeText(getApplicationContext(), "Test Berhasil",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(BeritaAdminActivity.this, UploadBeritaActvity.class));
+                finish();
                 return true;
 
             default:

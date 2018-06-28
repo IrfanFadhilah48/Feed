@@ -46,6 +46,8 @@ public class PermissionHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int locationPermission = ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION);
             int coarseLocationPermission = ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION);
+            int cameraPermission = ContextCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA);
+            int storagePermission = ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_EXTERNAL_STORAGE);
 
             List<String> listPermissionsNeeded = new ArrayList<>();
 
@@ -54,6 +56,12 @@ public class PermissionHelper {
             }
             if (coarseLocationPermission != PackageManager.PERMISSION_GRANTED) {
                 listPermissionsNeeded.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+            }
+            if (cameraPermission != PackageManager.PERMISSION_GRANTED){
+                listPermissionsNeeded.add(Manifest.permission.CAMERA);
+            }
+            if (storagePermission != PackageManager.PERMISSION_GRANTED){
+                listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
             }
             if (!listPermissionsNeeded.isEmpty()) {
                 ActivityCompat.requestPermissions(mActivity, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_PERMISSION);
@@ -79,13 +87,17 @@ public class PermissionHelper {
                 // Initialize the map with both permissions
                 perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
                 perms.put(Manifest.permission.ACCESS_COARSE_LOCATION, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.READ_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
                 // Fill with actual results from user
                 if (grantResults.length > 0) {
                     for (int i = 0; i < permissions.length; i++)
                         perms.put(permissions[i], grantResults[i]);
                     // Check for both permissions
                     if (perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                            && perms.get(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                            && perms.get(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                         Log.e(TAG, "permission granted");
 
                         checkAndRequestPermissions();
@@ -95,7 +107,9 @@ public class PermissionHelper {
                         // shouldShowRequestPermissionRationale will return true
                         // show the dialog or snackbar saying its necessary and try again otherwise proceed with setup.
                         if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) ||
-                                ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                                ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION) ||
+                                ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.CAMERA) ||
+                                ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                             showDialogOK(mActivity.getString(R.string.permission),
                                     new DialogInterface.OnClickListener() {
                                         @Override
@@ -131,6 +145,7 @@ public class PermissionHelper {
         new AlertDialog.Builder(mActivity)
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)
+                .setCancelable(false)
 //                .setNegativeButton("Cancel", okListener)
                 .create()
                 .show();

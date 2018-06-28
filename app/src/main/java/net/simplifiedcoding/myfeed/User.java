@@ -12,23 +12,44 @@ public class User {
 
 //    private int id;
 //    private String username, password;
-    private String KEY_USERNAME = "username";
+    public static final String KEY_USERNAME = "username";
+    public static final String KEY_ID = "id";
+    public static final String KEY_LOGIN = "login";
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    public static final String PREFS_NAME = "UserPref";
 
     public User(Context context){
-        String PREFS_NAME = "UserPref";
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
     }
 
-    public void setUsername(String username){
-        editor = sharedPreferences.edit();
-        editor.putString(KEY_USERNAME, username);
-        editor.apply();
+    public void setUsername(String KEY_USERNAME, String value){
+        editor.putString(KEY_USERNAME, value);
+        editor.commit();
+    }
+
+    public String getKEY_ID() {
+        return sharedPreferences.getString(KEY_ID, "");
+    }
+
+    public void setKEY_ID(String KEY_ID,String value) {
+        editor.putString(KEY_ID, value);
+        editor.commit();
+    }
+
+    public Boolean getKEY_LOGIN() {
+        return sharedPreferences.getBoolean(KEY_LOGIN, false);
+    }
+
+    public void setKEY_LOGIN(String KEY_LOGIN, boolean value) {
+        editor.putBoolean(KEY_LOGIN, value);
+        editor.commit();
+
     }
 
     public String getUsername(){
-        return  sharedPreferences.getString(KEY_USERNAME, null);
+        return  sharedPreferences.getString(KEY_USERNAME, "");
     }
 
 //    public int getId() {

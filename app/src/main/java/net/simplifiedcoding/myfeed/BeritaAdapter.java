@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -34,10 +35,11 @@ public class BeritaAdapter extends RecyclerView.Adapter<BeritaAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Berita berita = beritas.get(position);
+        final Berita berita = beritas.get(position);
         holder.textViewJudul.setText(berita.getJudul());
         holder.textViewIsi.setText(berita.getIsi());
         holder.textViewTanggal.setText(berita.getTanggal());
+
     }
 
     @Override
@@ -46,7 +48,9 @@ public class BeritaAdapter extends RecyclerView.Adapter<BeritaAdapter.ViewHolder
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+
         TextView textViewJudul, textViewIsi, textViewTanggal;
+
         public ViewHolder(View itemView) {
             super(itemView);
             textViewJudul = itemView.findViewById(R.id.textViewJudulBerita);
@@ -58,9 +62,12 @@ public class BeritaAdapter extends RecyclerView.Adapter<BeritaAdapter.ViewHolder
                 public void onClick(View view) {
                     int i = getAdapterPosition();
                     Intent ii = new Intent(context, DetailBeritaActivity.class);
+                    Toast.makeText(context, beritas.get(i).getJudul(),Toast.LENGTH_SHORT).show();
                     ii.putExtra("judul",beritas.get(i).getJudul());
                     ii.putExtra("isi", beritas.get(i).getIsi());
                     ii.putExtra("tanggal", beritas.get(i).getTanggal());
+                    ii.putExtra("tempat", beritas.get(i).getTempat());
+                    ii.putExtra("nomor", beritas.get(i).getContact());
                     context.startActivity(ii);
                 }
             });

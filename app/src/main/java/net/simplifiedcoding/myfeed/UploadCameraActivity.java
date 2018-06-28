@@ -1,7 +1,9 @@
 package net.simplifiedcoding.myfeed;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,8 +12,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -31,9 +37,13 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Hashtable;
+import java.util.Locale;
 import java.util.Map;
 
 import static android.os.Build.VERSION_CODES.M;
@@ -53,26 +63,32 @@ public class UploadCameraActivity extends AppCompatActivity {
     Button buttonCamera;
     FloatingActionButton buttonUploadCamera;
     EditText editTextNameUploadCamera,editTextPriceUploadCamera,editTextDescriptionUploadCamera;
-    EditText editTextLatUploadCamera,editTextLngUploadCamera;
+    EditText editTextNomorUploadCamera,editTextAlamatUploadCamera;
     ImageView imageViewCameraUpload;
     Bitmap bitmap, decoded, bm;
+    SharedPreferences sharedPreferences;
+    TextInputLayout textInputLayout1, textInputLayout2, textInputLayout3, textInputLayout4, textInputLayout5;
 
     int success;
     //private static final String UPLOAD_URL = "http://192.168.8.101/AppProperti/uploadimage2.php";
+    String id, username;
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
+    public final static String TAG_ID = "id";
+    public final static String TAG_USERNAME = "username";
     private String KEY_IMAGE = "image";
     private String KEY_NAME = "name";
     private String KEY_PRICE = "price";
     private String KEY_DESCRIPTION= "description";
-    private String KEY_LAT= "lat";
-    private String KEY_LNG= "lng";
+    private String KEY_TELEPHONE= "telephone";
+    private String KEY_ADDRESS= "address";
     private User user;
+    private static final String TAG = UploadCameraActivity.class.getSimpleName();
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(UploadCameraActivity.this,AboutActivity.class));
+        startActivity(new Intent(UploadCameraActivity.this,UploadPilihActivity.class));
         finish();
     }
 
@@ -88,8 +104,63 @@ public class UploadCameraActivity extends AppCompatActivity {
         editTextNameUploadCamera = (EditText)findViewById(R.id.editTextNameUploadCamera);
         editTextPriceUploadCamera  = (EditText)findViewById(R.id.editTextPriceUploadCamera);
         editTextDescriptionUploadCamera = (EditText)findViewById(R.id.editTextDescriptionUploadCamera);
-        editTextLatUploadCamera = (EditText)findViewById(R.id.editTextLatUploadCamera);
-        editTextLngUploadCamera = (EditText)findViewById(R.id.editTextLngUploadCamera);
+        editTextNomorUploadCamera = (EditText)findViewById(R.id.editTextNomorUploadCamera);
+        editTextAlamatUploadCamera = (EditText)findViewById(R.id.editTextAlamatUploadCamera);
+        textInputLayout1 = findViewById(R.id.wrapper1UploadCameraActivity);
+        textInputLayout2 = findViewById(R.id.wrapper2UploadCameraActivity);
+        textInputLayout3 = findViewById(R.id.wrapper3UploadCameraActivity);
+        textInputLayout4 = findViewById(R.id.wrapper4UploadCameraActivity);
+        textInputLayout5 = findViewById(R.id.wrapper5UploadCameraActivity);
+
+        editTextPriceUploadCamera.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                editTextPriceUploadCamera.removeTextChangedListener(this);
+
+                try {
+                    String givenstring = s.toString();
+                    Long longval;
+                    if (givenstring.contains(",")) {
+                        givenstring = givenstring.replaceAll(",", "");
+                    }
+                    longval = Long.parseLong(givenstring);
+//                    DecimalFormat formatter = new DecimalFormat("#,###,###,###");
+                    DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+                    formatter.applyPattern("#,###,###,###");
+                    String formattedString = formatter.format(longval);
+                    editTextPriceUploadCamera.setText(formattedString);
+                    editTextPriceUploadCamera.setSelection(editTextPriceUploadCamera.getText().length());
+                    // to place the cursor at the end of text
+                } catch (NumberFormatException nfe) {
+                    nfe.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                editTextPriceUploadCamera.addTextChangedListener(this);
+            }
+        });
+
+        final Toolbar toolbar = findViewById(R.id.toolbarUploadCameraActivity);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Upload Hewan");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         buttonCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,39 +177,40 @@ public class UploadCameraActivity extends AppCompatActivity {
             }
         });
 
-        user = new User(this);
+        sharedPreferences = getSharedPreferences(LoginActivity.my_shared_preferences, Context.MODE_PRIVATE);
+        id = sharedPreferences.getString(TAG_ID,"id");
+        Log.e(TAG,"dapet ID :" + id);
+
+//        user = new User(this);
     }
 
 
     public String getStringImage(Bitmap bmp){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bmp.compress(Bitmap.CompressFormat.JPEG, 60, baos);
         byte [] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-//        byte [] decodeBytes = Base64.decode(encodedImage,Base64.DEFAULT);
-//        bm = BitmapFactory.decodeByteArray(decodeBytes,0,decodeBytes.length);
         return encodedImage;
-//        return getStringImage(bmp);
     }
 
     private void uploadImage() {
         final String nama = editTextNameUploadCamera.getText().toString().trim();
-        final String harga = editTextPriceUploadCamera.getText().toString().trim();
+        final String harga = editTextPriceUploadCamera.getText().toString().trim().replaceAll(",","");
         final String deskripsi = editTextDescriptionUploadCamera.getText().toString().trim();
-        final String lat = editTextLatUploadCamera.getText().toString().trim();
-        final String lng = editTextLngUploadCamera.getText().toString().trim();
+        final String nomor = editTextNomorUploadCamera.getText().toString().trim();
+        final String alamat = editTextAlamatUploadCamera.getText().toString().trim();
 
 
         if (TextUtils.isEmpty(nama)) {
-           editTextNameUploadCamera.setError("Masukkan Nama");
-        } else if (TextUtils.isEmpty(harga)) {
-            editTextPriceUploadCamera.setError("Masukkan Harga");
-        } else if (TextUtils.isEmpty(deskripsi)) {
-            editTextDescriptionUploadCamera.setError("Masukkan Deskripsi");
-        } else if (TextUtils.isEmpty(lat)) {
-            editTextLatUploadCamera.setError("Masukkan Latitude");
-        } else if (TextUtils.isEmpty(lng)) {
-            editTextLngUploadCamera.setError("Masukkan Longitude");
+           textInputLayout1.setError("Silahkan Masukkan Nama");
+        }if (TextUtils.isEmpty(harga)) {
+            textInputLayout2.setError("Silahkan Masukkan Harga");
+        }if (TextUtils.isEmpty(deskripsi)) {
+            textInputLayout3.setError("Silahkan Masukkan Deskripsi Hewan yang Lengkap");
+        }if (TextUtils.isEmpty(nomor)) {
+            textInputLayout4.setError("Silahkan Masukkan Nomor Handphone");
+        }if (TextUtils.isEmpty(alamat)) {
+            textInputLayout5.setError("Silahkan Masukkan Alamat Lengkap");
         } else {
             final ProgressDialog loading = ProgressDialog.show(this, "Uploading...", "Please Wait...", false, false);
             StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.UPLOAD_URL,
@@ -169,6 +241,7 @@ public class UploadCameraActivity extends AppCompatActivity {
                         public void onErrorResponse(VolleyError error) {
                             loading.dismiss();
                             Toast.makeText(UploadCameraActivity.this, error.getMessage().toString(), Toast.LENGTH_SHORT);
+                            Log.e(TAG,error.getMessage().toString());
                         }
                     }) {
                 @Override
@@ -178,9 +251,10 @@ public class UploadCameraActivity extends AppCompatActivity {
                     params.put(KEY_NAME, nama);
                     params.put(KEY_PRICE, harga);
                     params.put(KEY_DESCRIPTION, deskripsi);
-                    params.put(KEY_LAT, lat);
-                    params.put(KEY_LNG, lng);
-                    params.put(KEY_USERNAME, user.getUsername());
+                    params.put(KEY_TELEPHONE, nomor);
+                    params.put(KEY_ADDRESS, alamat);
+                    params.put(KEY_USERNAME, sharedPreferences.getString(TAG_ID,"id"));
+                    Log.e(TAG,"upload" + params);
                     return params;
                 }
             };
@@ -194,8 +268,9 @@ public class UploadCameraActivity extends AppCompatActivity {
         editTextNameUploadCamera.setText(null);
         editTextPriceUploadCamera.setText(null);
         editTextDescriptionUploadCamera.setText(null);
-        editTextLatUploadCamera.setText(null);
-        editTextLngUploadCamera.setText(null);
+        editTextNomorUploadCamera.setText(null);
+        editTextAlamatUploadCamera.setText(null);
+        imageViewCameraUpload.setFocusable(true);
     }
 
     @Override
@@ -203,8 +278,31 @@ public class UploadCameraActivity extends AppCompatActivity {
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE && resultCode == RESULT_OK){
 
             bitmap = (Bitmap) data.getExtras().get("data");
-            imageViewCameraUpload.setImageBitmap(bitmap);
+//            imageViewCameraUpload.setImageBitmap(bitmap);
+            setToImageView(getResizedBitmap(bitmap,1024));
 
         }
+    }
+
+    private void setToImageView(Bitmap bmp){
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG,60, bytes);
+        decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
+        imageViewCameraUpload.setImageBitmap(decoded);
+    }
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize){
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitMapRatio = (float)width/(float)height;
+        if (bitMapRatio > 1){
+            width = maxSize;
+            height = (int) (width / bitMapRatio);
+        }else {
+            height = maxSize;
+            width = (int)(height * bitMapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width,height,true);
     }
 }

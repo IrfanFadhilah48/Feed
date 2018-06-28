@@ -1,10 +1,12 @@
 package net.simplifiedcoding.myfeed;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -12,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.view.CollapsibleActionView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -27,7 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import static android.R.attr.name;
+
 import static android.R.attr.noHistory;
 
 /**
@@ -36,10 +40,9 @@ import static android.R.attr.noHistory;
 
 public class DetailDokterActivity extends AppCompatActivity {
 
-    private CollapsingToolbarLayout collapsingToolbarLayout;
-    private Toolbar toolbar;
-    private TextView textViewNama, textViewAlamat, textViewTelepon, textViewRating, cobaTime;
-    private ImageView imageView;
+    CollapsingToolbarLayout collapsingToolbarLayoutDokter;
+    TextView textViewNama, textViewAlamat, textViewTelepon, textViewRating,textViewDeskripsi, cobaTime;
+    private ImageView imageView,imageViewMaps, imageViewTelpon;
     private String image;
     private RatingBar ratingBar;
     private Float b;
@@ -55,40 +58,79 @@ public class DetailDokterActivity extends AppCompatActivity {
     SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("EEEE", Locale.getDefault());
     private Calendar calendar;
     String time;
+    String title;
+    public String nama;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, DokterActivity.class));
+        finish();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_detail_dokter);
-        String name = "";
-//        toolbar = (Toolbar) findViewById(R.id.toolbarDokterDetail);
-//        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        setContentView(R.layout.activity_detail_dokter);
+
+        final Toolbar toolbar = findViewById(R.id.toolbarDokterDetail);
+        collapsingToolbarLayoutDokter = findViewById(R.id.collapsingToolbarDokter);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+//        Log.e("kenapa", title);
+
+
         textViewNama = (TextView) findViewById(R.id.textViewNamaDokterDetail);
         textViewAlamat = (TextView) findViewById(R.id.textViewAlamatDokterDetail);
         textViewTelepon = (TextView)  findViewById(R.id.textViewTelepnDokterDetail);
         textViewRating = (TextView) findViewById(R.id.textViewRatingDokterDetail);
-        imageView = (ImageView) findViewById(R.id.imageViewDokterDetail);
+        textViewDeskripsi = findViewById(R.id.textViewDeskripsiDokterDetail);
+        imageView = (ImageView) findViewById(R.id.imageViewCollapseDokter);
+        imageViewMaps = findViewById(R.id.imageViewMapsDokterDetail);
+        imageViewTelpon = findViewById(R.id.imageViewTelponDokterDetail);
         ratingBar = (RatingBar) findViewById(R.id.ratingBarDokter);
+
+
 //        collapsingToolbarLayout.setTitle(name);
 //        collapsingToolbarLayout.setExpandedTitleColor(Color.parseColor("#FF0000FF"));
 
         Bundle extraname = getIntent().getExtras();
-        name = extraname.getString("nama");
-        textViewNama.setText(name);
+        nama = extraname.getString("nama");
+        textViewNama.setText(nama);
+        title = textViewNama.getText().toString();
+        Log.e("apakah dapat",title);
 
         Bundle extraalamat = getIntent().getExtras();
         String alamat = extraalamat.getString("alamat");
         textViewAlamat.setText(alamat);
 
         Bundle extratelepon = getIntent().getExtras();
-        String telepon = extratelepon.getString("telpon");
+        final String telepon = extratelepon.getString("telpon");
         textViewTelepon.setText(telepon);
+
+        Bundle extradeskripsi = getIntent().getExtras();
+        String deskripsi = extradeskripsi.getString("deskripsi");
+        textViewDeskripsi.setText(deskripsi);
+
+        Bundle extralatitude = getIntent().getExtras();
+        final String lat = extralatitude.getString("lat");
+
+        Bundle extralongitude = getIntent().getExtras();
+        final String lng = extralongitude.getString("lng");
 
         Bundle extrarating = getIntent().getExtras();
         String rating = extrarating.getString("rating");
         textViewRating.setText(rating);
         b = Float.valueOf(Float.parseFloat(rating));
         ratingBar.setRating(b/2);
+        ratingBar.setIsIndicator(true);
 
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.parseColor("#ffd700"), PorterDuff.Mode.SRC_ATOP);
@@ -103,6 +145,29 @@ public class DetailDokterActivity extends AppCompatActivity {
                 .error(R.drawable.ic_image_black_24dp)
                 .into(imageView);
 
+        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setSubtitleTextColor(Color.WHITE);
+        collapsingToolbarLayoutDokter.setTitle(nama);
+        collapsingToolbarLayoutDokter.setExpandedTitleColor(Color.WHITE);
+        collapsingToolbarLayoutDokter.setCollapsedTitleTextColor(Color.WHITE);
+        collapsingToolbarLayoutDokter.setContentScrimColor(getResources().getColor(R.color.colorPrimary));
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        Log.e("coba",image);
+
+        imageViewMaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intentMaps(lat,lng,nama);
+            }
+        });
+
+        imageViewTelpon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                contactPerson(telepon);
+            }
+        });
+
 //        calendar = Calendar.getInstance();
 //        simpleDateFormat1 = new SimpleDateFormat("HH:mm:ss");
 //        time = simpleDateFormat1.format(calendar.getTime());
@@ -115,6 +180,22 @@ public class DetailDokterActivity extends AppCompatActivity {
 
 //        dynamicToolbarColor();
 //        toolbarTextApperance();
+    }
+
+    private void contactPerson(String nomor) {
+        Intent intentCall = new Intent(Intent.ACTION_DIAL);
+        intentCall.setData(Uri.parse("tel:"+nomor));
+        startActivity(intentCall);
+    }
+
+    private void intentMaps(String latitude, String longitude, String nama) {
+        String sTatic = "geo:-6.1645109,106.810026?z=18&q=JakartaVetCideng";
+        String latlng = "geo:" + latitude + "," + longitude+"?z=18&q="+ nama;
+        Uri uri = Uri.parse(latlng);
+        Log.e("hasil",latlng);
+        Intent intentAddress = new Intent(Intent.ACTION_VIEW, uri);
+        intentAddress.setPackage("com.google.android.apps.maps");
+        startActivity(intentAddress);
     }
 
     private void compareTime(){

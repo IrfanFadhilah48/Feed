@@ -6,4 +6,7 @@
     <color name="colorText">#FFFFFF</color>
     <color name="green">#FF00FF00</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="birumuda">#FF0BB3DE</color>
+    <color name="abu">#939292</color>
 </resources>

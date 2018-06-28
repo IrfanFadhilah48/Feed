@@ -16,7 +16,7 @@
             android:id="@+id/toolbarHomeAdmin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar"></android.support.v7.widget.Toolbar>
+            android:theme="@style/ToolBarStyle"></android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 

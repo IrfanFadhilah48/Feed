@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -51,6 +52,11 @@ public class LoginAdminActivity extends AppCompatActivity {
         textInputLayout1 = findViewById(R.id.wrapper1Admin);
         textInputLayout2 = findViewById(R.id.wrapper2Admin);
         pDialog = new ProgressDialog(context);
+
+        Toolbar toolbar = findViewById(R.id.toolbarLoginAdmin);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setTitle("Admin");
         
         buttonLoginAdmin.setOnClickListener(new View.OnClickListener() {
             @Override

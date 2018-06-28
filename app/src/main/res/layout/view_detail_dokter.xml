@@ -95,7 +95,7 @@
             android:isIndicator="false"
             android:layout_marginTop="10dp"
             android:numStars="5"
-            android:stepSize="0.00001"
+            android:stepSize="0.5"
             style="?android:attr/ratingBarStyleIndicator"/>
 
         <TextView

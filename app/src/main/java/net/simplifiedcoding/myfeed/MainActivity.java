@@ -1,6 +1,9 @@
 package net.simplifiedcoding.myfeed;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -49,6 +52,7 @@ import static android.os.Build.VERSION_CODES.N;
 public class MainActivity extends AppCompatActivity/*implements RecyclerView.OnScrollChangeListener*/ {
 
     //Creating a List of superheroes
+    SuperHero superHero;
     private ArrayList<SuperHero> listSuperHeroes;
 
     //Creating Views
@@ -64,6 +68,9 @@ public class MainActivity extends AppCompatActivity/*implements RecyclerView.OnS
     boolean grid = true;
     boolean grid1 = true;
     Menu menu;
+    SharedPreferences sharedPreferences;
+    String cekadmin;
+    public static String TAG_ID = "id";
 
     //The request counter to send ?page=1, ?page=2  requests
     private int requestCount = 1;
@@ -71,15 +78,28 @@ public class MainActivity extends AppCompatActivity/*implements RecyclerView.OnS
     @Override
     public void onBackPressed() {
         finish();
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        startActivity(new Intent(MainActivity.this, HomeActivity.class));
+//        sharedPreferences = getSharedPreferences(LoginActivity.my_shared_preferences, Context.MODE_PRIVATE);
+//        String id = sharedPreferences.getString(TAG_ID,"id");
+//        String username = sharedPreferences.getString("username","username");
+//        Log.e("data",id+"\n"+username);
         super.onBackPressed();
     }
+
+//    @Override
+//    public void finish() {
+//        super.finish();
+//        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sharedPreferences = getSharedPreferences(LoginActivity.my_shared_preferences, Context.MODE_PRIVATE);
+        cekadmin = sharedPreferences.getString(TAG_ID,"id");
+        Log.e("tester admin:", cekadmin);
         //Initializing Views
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -87,6 +107,14 @@ public class MainActivity extends AppCompatActivity/*implements RecyclerView.OnS
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Forum Jual Beli");
+        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            }
+        });
 
         /*sv = (SearchView)findViewById(R.id.searchview);
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -215,7 +243,7 @@ public class MainActivity extends AppCompatActivity/*implements RecyclerView.OnS
                 new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(MainActivity.this, "No More Item Available",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, error.getMessage().toString(),Toast.LENGTH_SHORT).show();
 //                    refresh.setRefreshing(false);
                 }
             });
@@ -230,7 +258,8 @@ public class MainActivity extends AppCompatActivity/*implements RecyclerView.OnS
     private void parseData(JSONArray array) {
         for (int i = 0; i < array.length(); i++) {
             //Creating the superhero object
-            SuperHero superHero = new SuperHero();
+//            SuperHero superHero = new SuperHero();
+            superHero = new SuperHero();
             JSONObject json = null;
             try {
                 //Getting json
@@ -241,8 +270,8 @@ public class MainActivity extends AppCompatActivity/*implements RecyclerView.OnS
                 superHero.setName(json.getString(Config.TAG_NAME));
                 superHero.setPublisher(json.getString(Config.TAG_PUBLISHER));
                 superHero.setDescription(json.getString(Config.TAG_DESCRIPTION));
-                superHero.setLat(json.getString(Config.TAG_LOCATIONLAT));
-                superHero.setLng(json.getString(Config.TAG_LOCATIONLNG));
+//                superHero.setLat(json.getString(Config.TAG_LOCATIONLAT));
+//                superHero.setLng(json.getString(Config.TAG_LOCATIONLNG));
                 superHero.setTelephone(json.getString(Config.TAG_TELEPHONE));
                 superHero.setAddress(json.getString(Config.TAG_ADDRESS));
                 superHero.setUsername(json.getString(Config.KEY_USERNAME));
@@ -256,6 +285,8 @@ public class MainActivity extends AppCompatActivity/*implements RecyclerView.OnS
         //Notifying the adapter that data has been added or changed
         adapter.notifyDataSetChanged();
     }
+
+
 
     //This method would check that the recyclerview scroll has reached the bottom or not
     private boolean isLastItemDisplaying(RecyclerView recyclerView) {
@@ -295,10 +326,15 @@ public class MainActivity extends AppCompatActivity/*implements RecyclerView.OnS
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         MenuItem searchViewItem = menu.findItem(R.id.search);
+        MenuItem tes = menu.findItem(R.id.upload);
         SearchView searchView = (SearchView)MenuItemCompat.getActionView(searchViewItem);
         searchViewItem(searchView);
         this.menu = menu;
+        if (cekadmin.contains("id")){
+            tes.setVisible(false);
+        }
         return true;
+
     }
 
     private void searchViewItem(SearchView searchView) {
@@ -326,34 +362,31 @@ public class MainActivity extends AppCompatActivity/*implements RecyclerView.OnS
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch(id){
-            case R.id.exit:
-                finish();
-                break;
+//            case R.id.exit:
+//                finish();
+//                break;
             case R.id.itemlist:
                 if (grid == true){
                     showRecylerGrid();
-                    menu.getItem(3).setIcon(getResources().getDrawable(R.drawable.ic_view_module_white_24dp));
+                    menu.getItem(1).setIcon(getResources().getDrawable(R.drawable.ic_view_module_white_24dp));
                     grid1 = true;
                     grid = false;
                     break;
                 }else if(grid1 == true) {
                     showRecyclerList();
-                    menu.getItem(3).setIcon(getResources().getDrawable(R.drawable.ic_view_list_white_24dp));
+                    menu.getItem(1).setIcon(getResources().getDrawable(R.drawable.ic_view_list_white_24dp));
                     grid = true;
                     grid1 = false;
                     break;
                 }
-                //showRecyclerList();
-
-                //break;
-//            case R.id.itemgrid:
-//                showRecylerGrid();
+            case R.id.upload:
+                startActivity(new Intent(MainActivity.this, UploadPilihActivity.class));
+                break;
+//            case R.id.about:
+//                startActivity(new Intent(MainActivity.this, AboutActivity.class));
+//                Toast.makeText(getApplicationContext(), "test",Toast.LENGTH_SHORT).show();
 //                break;
 
-            case R.id.about:
-                startActivity(new Intent(MainActivity.this, AboutActivity.class));
-                Toast.makeText(getApplicationContext(), "test",Toast.LENGTH_SHORT).show();
-                break;
 
 
         }
@@ -396,6 +429,12 @@ public class MainActivity extends AppCompatActivity/*implements RecyclerView.OnS
 //        getData();
 //        adapter = new CardAdapter(listSuperHeroes, this);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void adminupload() {
+        if (superHero.getUsername().isEmpty()){
+
+        }
     }
 
 }

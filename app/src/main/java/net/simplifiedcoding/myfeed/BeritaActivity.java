@@ -64,7 +64,7 @@ public class BeritaActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        adapterBerita = new BeritaAdapter(beritaArrayList,context);
+        adapterBerita = new BeritaAdapter(beritaArrayList,this);
         recyclerView.setAdapter(adapterBerita);
 
         calendar = Calendar.getInstance();
@@ -90,7 +90,6 @@ public class BeritaActivity extends AppCompatActivity {
     private void getData(String tanggal) {
         final ProgressBar progressBar = findViewById(R.id.progressBarBerita);
         progressBar.setVisibility(View.VISIBLE);
-
         setProgressBarIndeterminateVisibility(true);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Config.BERITA_URL + tanggal,
@@ -134,6 +133,8 @@ public class BeritaActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 berita.setTanggal(outputdate);
+                berita.setTempat(jObject.getString(Config.KEY_TEMPAT));
+                berita.setContact(jObject.getString(Config.KEY_CONTACT));
 
                 //berita.setTanggal(jObject.getString(Config.KEY_TANGGAL));
                 beritaArrayList.add(berita);

@@ -22,15 +22,13 @@ public class Config {
     public static final String DOKTER_URL2 = "https://irfanpi.000webhostapp.com/haversine.php?lat=";
     public static final String BERITA_URL = "https://irfanpi.000webhostapp.com/berita.php?date=";
     public static final String LOGIN_ADMIN = "https://irfanpi.000webhostapp.com/admin.php";
-
+    public static final String UPLOAD_BERITA = "https://irfanpi.000webhostapp.com/uploadberita.php";
 
     //JSON TAGS
     public static final String TAG_IMAGE_URL = "image";
     public static final String TAG_NAME = "name";
     public static final String TAG_PUBLISHER = "price";
     public static final String TAG_DESCRIPTION = "description";
-    public static final String TAG_LOCATIONLAT = "lat";
-    public static final String TAG_LOCATIONLNG = "lng";
     public static final String TAG_TELEPHONE = "telephone";
     public static final String TAG_ADDRESS = "address";
 
@@ -42,7 +40,10 @@ public class Config {
     public static final String TAG_RATING_DOKTER = "rating";
     public static final String TAG_JAMBUKA_DOKTER = "jambuka";
     public static final String TAG_JAMTUTUP_DOKTER = "jamtutup";
-    public static final String TAG_JARAK = "jarak";
+    public static final String TAG_JARAK_DOKTER = "jarak";
+    public static final String TAG_DESKRIPSI_DOKTER = "deskripsi";
+    public static final String TAG_LAT_DOKTER = "lat";
+    public static final String TAG_LNG_DOKTER = "lng";
 
     //LOGIN
     public static final String KEY_USERNAME = "username";
@@ -59,11 +60,14 @@ public class Config {
     public static final String KEY_JUDUL = "judul";
     public static final String KEY_ISI = "isi";
     public static final String KEY_TANGGAL = "tanggal";
+    public static final String KEY_TEMPAT = "tempat";
+    public static final String KEY_CONTACT = "nomor";
 
     //LOGIN
     public static final String KEY_USERNAME_ADMIN = "username";
     public static final String KEY_PASSWORD_ADMIN = "password";
     public static final String LOGIN_SUCCESS_ADMIN = "success";
+
 }
 
 //"http://simplifiedcoding.16mb.com/feed/feed.php?page="

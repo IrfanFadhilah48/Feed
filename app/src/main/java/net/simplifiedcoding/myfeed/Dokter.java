@@ -14,8 +14,33 @@ public class Dokter {
     private String jambuka;
     private String jamtutup;
     private String jarak;
+    private String deskripsi;
+    private String latitude;
+    private String longitude;
 
+    public String getLatitude() {
+        return latitude;
+    }
 
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getDeskripsi() {
+        return deskripsi;
+    }
+
+    public void setDeskripsi(String deskripsi) {
+        this.deskripsi = deskripsi;
+    }
 
     public String getJamtutup() {
         return jamtutup;

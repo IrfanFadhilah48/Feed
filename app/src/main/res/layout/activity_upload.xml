@@ -1,61 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:focusableInTouchMode="true">
 
-    <Button
-        android:id="@+id/buttonChooseUpload"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="5dp"
-        android:text="Choose Image" />
-    
-    <ImageView
-        android:id="@+id/imageViewUpload"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_weight="1"/>
-
-    <EditText
-        android:id="@+id/editTextNameUpload"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarBeritaAdmin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="enter name"
-        android:inputType="text"/>
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
-    <EditText
-        android:id="@+id/editTextPriceUpload"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="enter price"
-        android:inputType="text"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarUploadActivity"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ToolBarStyle">
 
-    <EditText
-        android:id="@+id/editTextDescriptionUpload"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="enter description"
-        android:inputType="text"/>
+        </android.support.v7.widget.Toolbar>
 
-    <EditText
-        android:id="@+id/editTextLatUpload"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="enter lat"
-        android:inputType="text"/>
+    </android.support.design.widget.AppBarLayout>
 
-    <EditText
-        android:id="@+id/editTextLngUpload"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="enter lng"
-        android:inputType="text"/>
+        android:layout_height="wrap_content">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <include layout="@layout/content_upload" />
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/buttonUpload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"/>
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="3dp"
+        android:src="@drawable/ic_add_black_24dp" />
 
-</LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

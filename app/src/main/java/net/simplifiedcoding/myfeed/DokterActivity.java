@@ -1,7 +1,10 @@
 package net.simplifiedcoding.myfeed;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -18,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -52,8 +56,16 @@ public class DokterActivity extends AppCompatActivity implements LocationListene
     Criteria criteria;
     String provider;
     DokterAdapter dokterAdapter;
+    Toolbar toolbar;
 
     private static final String TAG = DokterActivity.class.getSimpleName();
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this,HomeActivity.class));
+        finish();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,11 +73,23 @@ public class DokterActivity extends AppCompatActivity implements LocationListene
         setContentView(R.layout.activity_dokter);
         permissionHelper = new PermissionHelper(this);
 
+        //Toolbar
+        toolbar = findViewById(R.id.toolbarDokterActivity);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Dokter Hewan");
+        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            }
+        });
 
         swipeRefreshLayout = findViewById(R.id.swiperefreshDokter);
         recyclerViewDokter = findViewById(R.id.recyclerViewDokter);
         recyclerViewDokter.setHasFixedSize(true);
-
 
         layoutManager = new LinearLayoutManager(this);
         recyclerViewDokter.setLayoutManager(layoutManager);
@@ -86,6 +110,7 @@ public class DokterActivity extends AppCompatActivity implements LocationListene
 
         lokasi();
 
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -93,7 +118,6 @@ public class DokterActivity extends AppCompatActivity implements LocationListene
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-
 
     }
 
@@ -117,13 +141,15 @@ public class DokterActivity extends AppCompatActivity implements LocationListene
         if (location != null){
             onLocationChanged(location);
         }else {
-//            onLocationChanged(location);
+            Toast.makeText(getApplicationContext(),"Tidak bisa mendapatkan lokasi anda", Toast.LENGTH_SHORT).show();
         }
     }
 //private getData(DOuble lat, Double lng)
     private void getData(Double lat, Double lng) {
-        final ProgressBar progresBar =findViewById(R.id.progressBarDokter);
-        progresBar.setVisibility(View.VISIBLE);
+//        progresBar.setVisibility(View.VISIBLE);
+//        setProgressBarIndeterminateVisibility(true);
+        final ProgressBar progressBar = findViewById(R.id.progressBarDokter);
+        progressBar.setVisibility(View.VISIBLE);
         setProgressBarIndeterminateVisibility(true);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Config.DOKTER_URL2 +lat+ "&lng=" +lng,
@@ -131,8 +157,8 @@ public class DokterActivity extends AppCompatActivity implements LocationListene
                     @Override
                     public void onResponse(JSONArray response) {
                         parseData(response);
-                        Log.e(TAG, "Test"+response);
-                        progresBar.setVisibility(View.GONE);
+                        Log.e(TAG, "Test : "+response);
+                        progressBar.setVisibility(View.INVISIBLE);
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 },
@@ -166,7 +192,10 @@ public class DokterActivity extends AppCompatActivity implements LocationListene
                 dokter.setRating(jObject.getString(Config.TAG_RATING_DOKTER));
                 dokter.setJambuka(jObject.getString(Config.TAG_JAMBUKA_DOKTER));
                 dokter.setJamtutup(jObject.getString(Config.TAG_JAMTUTUP_DOKTER));
-                double jarak = Double.parseDouble(jObject.getString(Config.TAG_JARAK));
+                dokter.setDeskripsi(jObject.getString(Config.TAG_DESKRIPSI_DOKTER));
+                dokter.setLatitude(jObject.getString(Config.TAG_LAT_DOKTER));
+                dokter.setLongitude(jObject.getString(Config.TAG_LNG_DOKTER));
+                double jarak = Double.parseDouble(jObject.getString(Config.TAG_JARAK_DOKTER));
                 dokter.setJarak("" + round(jarak,2));
 //                dokter.setJarak(jObject.getString(Config.TAG_JARAK));
                 dokterArrayList.add(dokter);
@@ -177,6 +206,7 @@ public class DokterActivity extends AppCompatActivity implements LocationListene
             //dokterArrayList.add(dokter);
         }
         dokterAdapter.notifyDataSetChanged();
+        locationManager.removeUpdates(this);
 //        dokterAdapter.notifyDataSetChanged();
     }
 

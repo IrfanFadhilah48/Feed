@@ -24,35 +24,37 @@
 
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.tes"
-        android:name=".AppController">
-        <activity android:name=".SplashScreen">
+        android:theme="@style/AppTheme.Collapse">
+        <!--android:name=".AppController">-->
+        <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SplashScreen"/>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".AboutHomeActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".DetailActivity" />
-        <activity android:name=".AboutActivity" />
         <activity android:name=".UploadActivity"/>
         <activity android:name=".UploadCameraActivity"/>
         <activity android:name=".DokterActivity"/>
-        <activity android:name=".TesDokterActivity"/>
         <activity android:name=".DetailDokterActivity"/>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".BeritaActivity"/>
         <activity android:name=".LoginAdminActivity"/>
         <activity android:name=".HomeAdminActivity"/>
         <activity android:name=".BeritaAdminActivity"/>
+        <activity android:name=".UploadBeritaActvity"/>
+        <activity android:name=".DetailBeritaActivity"/>
+        <activity android:name=".UploadPilihActivity"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

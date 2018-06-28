@@ -4,25 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
-    <item android:id="@+id/about"
-        android:icon="@drawable/ic_email_black_18dp"
-        android:title="About"/>
+    <!--<item android:id="@+id/about"-->
+        <!--android:icon="@drawable/ic_email_black_18dp"-->
+        <!--android:title="About"/>-->
 
-    <item android:id="@+id/exit"
-        android:icon="@drawable/ic_visibility_black_18dp"
-        android:title="Exit"/>
+    <!--<item android:id="@+id/exit"-->
+        <!--android:icon="@drawable/ic_visibility_black_18dp"-->
+        <!--android:title="Exit"/>-->
 
     <item
         android:id="@+id/search"
-        android:icon="@drawable/ic_search_black_24dp"
+        android:icon="@drawable/ic_search_white_24dp"
         android:title="Search"
         app:showAsAction="always|collapseActionView"
-        app:actionViewClass="android.support.v7.widget.SearchView"/>
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        />
 
     <item
         android:id="@+id/itemlist"
         android:icon="@drawable/ic_view_list_white_24dp"
         app:showAsAction="always"
         android:title="tampilan"/>
+
+    <item
+        android:id="@+id/upload"
+        android:icon="@drawable/ic_add_black_24dp"
+        app:showAsAction="always"
+        android:title="Upload"/>
 
 </menu>
