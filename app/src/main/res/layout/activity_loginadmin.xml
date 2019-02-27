@@ -33,15 +33,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:layout_marginBottom="8dp">
-
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
 
             <EditText
                 android:id="@+id/editTextUsernameAdmin"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:hint="Username"
                 android:drawableRight="@drawable/ic_account_circle_black_18dp"
+                android:background="@drawable/shape"
+                android:paddingLeft="8dp"
+                android:paddingRight="9.2dp"
                 android:inputType="textEmailAddress"/>
 
         </android.support.design.widget.TextInputLayout>
@@ -53,15 +57,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             app:passwordToggleEnabled="true"
             app:passwordToggleDrawable="@drawable/icon_selector"
-            app:passwordToggleTint="@color/colorAccent">
+            app:passwordToggleTint="@color/black">
 
             <EditText
                 android:id="@+id/hide_show_edittext_password_Admin"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:hint="Password"
+                android:background="@drawable/shape"
+                android:paddingLeft="8dp"
                 android:inputType="textPassword"/>
 
         </android.support.design.widget.TextInputLayout>
@@ -70,11 +78,12 @@
             android:id="@+id/buttonLoginAdmin"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@color/birumuda"
             android:textColor="@android:color/white"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="10dp"
-            android:padding="12dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:text="Login">
 
         </android.support.v7.widget.AppCompatButton>

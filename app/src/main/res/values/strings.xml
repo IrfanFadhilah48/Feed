@@ -1,12 +1,13 @@
 <resources>
     <string name="app_name">MyCat</string>
     <string name="title_activity_maps">Map</string>
-    <string name="about">Developer by\n
-        Ando Pratama Wibawa \n
-        Nur Irfan Eka Fadhilah @irfanfadhiilah\n
-        Muhammad Farrel Wiraputra \n
-        Ella Sofia
-    </string>
+    <string name="about">
+        Developed By:\n\n
+        Nama \t: Nur Irfan Eka Fadhilah\n
+        NPM \t: 55415187\n
+        Kelas \t: 3IA14\n
+    </string>>
+    <string name="textjalan">Terima Kasih. Sudah menggunakan aplikasi ini</string>
     <string name="whatsapp">whatsapp</string>
     <string name="telepon">telepon</string>
     <string name="sms">sms</string>
@@ -16,8 +17,13 @@
     <string name="tambah">Tambah</string>
 
     <string name="permission">Accessing Location Permissions required</string>
-    <string name="permission_setting">Go to App settings and enable permissions</string>
-    <string name="tes">Accessing Location Permissions required</string>
+    <string name="permission_setting">Harap izinkan permission yang dibutuhkan untuk menjalankan aplikasi ini</string>
+    <string name="tes">Harap izinkan permission yang dibutuhkan untuk menjalankan aplikasi ini</string>
     <string name="tes2">Go to App settings and enable permissions</string>
+    <string name="deskripsi">Deskripsi :</string>
+    <string name="cancel">cancel</string>
+    <string name="action_settings">action_settings</string>
+    <string name="GPSAlertDialogMessage">GPSAlertDialogMessage</string>
+    <string name="GPSAlertDialogTitle">GPSAlertDialogTitle</string>
 </resources>
 

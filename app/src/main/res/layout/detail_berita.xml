@@ -10,42 +10,51 @@
         android:id="@+id/appbarLoginAdmin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbarLoginAdmin"
+            android:id="@+id/toolbarBeritaDetailActivity"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar"></android.support.v7.widget.Toolbar>
+            android:theme="@style/ToolBarStyle"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <RelativeLayout
                 android:id="@+id/isiContentDetailBerita"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp">
+                >
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/card_detail_berita"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingTop="5dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     app:cardCornerRadius="10dp"
                     >
+                    <!--android:layout_marginBottom="5dp"-->
+                    <!--android:paddingLeft="20dp"-->
+                    <!--android:paddingRight="20dp"-->
+                    <!--android:paddingTop="10dp"-->
+
 
                     <TextView
                         android:id="@+id/judulberita"
@@ -62,9 +71,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/card_detail_berita"
-                    android:layout_marginTop="15dp"
-                    android:paddingLeft="3dp"
-                    android:paddingRight="3dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     app:cardCornerRadius="10dp">
 
                     <LinearLayout
@@ -97,9 +106,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/card_detail_berita2"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginTop="15dp"
-                    android:paddingLeft="3dp"
-                    android:paddingRight="3dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     app:cardCornerRadius="10dp">
 
                     <LinearLayout
@@ -125,26 +134,23 @@
 
                 </android.support.v7.widget.CardView>
 
-
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/isiContentDetailBerita2"
-                android:layout_below="@id/isiContentDetailBerita"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp">
+                android:layout_below="@id/isiContentDetailBerita">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/menudetailberita"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/card_detail_berita3"
                     android:layout_gravity="bottom"
-                    android:paddingLeft="1dp"
-                    android:paddingRight="1dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginBottom="5dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="10dp">
 
@@ -227,6 +233,7 @@
                                 android:gravity="center">
 
                                 <ImageView
+                                    android:id="@+id/telponBerita"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:src="@drawable/telepone" />
@@ -255,6 +262,7 @@
                                 android:gravity="center">
 
                                 <ImageView
+                                    android:id="@+id/waberita"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:src="@drawable/whatsapp2" />
@@ -275,31 +283,28 @@
                 android:layout_height="wrap_content"
                 android:visibility="invisible">
 
-                <CalendarView
-                    android:id="@+id/calenderView"
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/calendargtithub"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    app:mcv_calendarMode="month"
+                    app:mcv_selectionColor="@color/birumuda"
+                    app:mcv_showOtherDates="all" />
 
                 <Button
                     android:id="@+id/buttonBack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/calenderView"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
-                    android:text="back"
-                    />
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/calendargtithub"
+                    android:text="back" />
+
             </RelativeLayout>
 
-            <FrameLayout
-                android:id="@+id/framelayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </FrameLayout>
-
         </RelativeLayout>
-
 
     </android.support.v4.widget.NestedScrollView>
 

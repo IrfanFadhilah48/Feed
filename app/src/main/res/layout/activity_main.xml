@@ -17,54 +17,43 @@
             android:id="@+id/toolbarFJB"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar"></android.support.v7.widget.Toolbar>
+            android:theme="@style/ToolBarStyle"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:titleTextAppearance="@style/Toolbar.TitleText"/>
 
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <RelativeLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-            <android.support.v7.widget.SearchView
-                android:id="@+id/searchview"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:queryHint="Search">
+                android:layout_height="match_parent">
 
-            </android.support.v7.widget.SearchView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true" />
 
-            <!--<EditText-->
-            <!--android:id="@+id/editTextSearch"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:hint="Search"-->
-            <!--android:inputType="text"-->
-            <!--android:textSize="20dp"-->
-            <!--android:layout_below="@id/searchview"-->
-            <!--android:layout_marginBottom="10dp"/>-->
+                <ProgressBar
+                    android:id="@+id/progressBar1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/searchview"
-                android:layout_centerInParent="true" />
-            <!--android:layout_below="@id/editTextSearch"/>-->
+            </RelativeLayout>
 
-            <ProgressBar
-                android:id="@+id/progressBar1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true" />
+        </android.support.v4.widget.NestedScrollView>
 
-        </RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
-
 
 </android.support.design.widget.CoordinatorLayout>

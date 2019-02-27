@@ -36,8 +36,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Judul Event"
-                android:inputType="textMultiLine"
-                android:singleLine="false" />
+                android:inputType="textCapSentences"
+                android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Isi Event"
-                android:inputType="textMultiLine"
+                android:inputType="textMultiLine|textCapSentences"
                 android:singleLine="false" />
 
         </android.support.design.widget.TextInputLayout>
@@ -83,6 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Tempat"
+                android:inputType="textCapWords"
                 android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>
@@ -97,7 +98,8 @@
                 android:id="@+id/editTextUploadNomor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Contact Person"
+                android:hint="Nomor handphone"
+                android:inputType="phone"
                 android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>

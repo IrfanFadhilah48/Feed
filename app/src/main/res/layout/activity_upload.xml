@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ToolBarStyle">
-
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
@@ -43,7 +42,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="3dp"
+        app:backgroundTint="@color/birumuda"
         android:src="@drawable/ic_add_black_24dp" />
-
 
 </android.support.design.widget.CoordinatorLayout>
